@@ -30,12 +30,23 @@ class MessageBar extends Component {
     this.notifyAlertHiddenCallback = null;
     this.alertShown = false;
     this.timeoutHide = null;
+    this.firstCall = false;
 
     this.state = this.getStateByProps(props);
   }
 
+  componentDidMount() {
+    // Apply the colors of the alert depending on its alertType
+    this._applyAlertStylesheet(this.state.alertType);
+
+    // Override the opposition style position regarding the state position in order to have the alert sticks that position
+    this._changeOffsetByPosition(this.state.position);
+  }
+
   componentWillReceiveProps(nextProps) {
-    this.setNewState(nextProps);
+    if (nextProps != null && nextProps.length > 0) {
+      this.setNewState(nextProps);
+    }
   }
 
   setNewState(state) {
@@ -84,16 +95,16 @@ class MessageBar extends Component {
       durationToHide: props.durationToHide || 350,
 
       /* Offset of the View, useful if you have a navigation bar or if you want the alert be shown below another component instead of the top of the screen */
-      viewTopOffset: props.viewTopOffset || 0,
-      viewBottomOffset: props.viewBottomOffset || 0,
-      viewLeftOffset: props.viewLeftOffset || 0,
-      viewRightOffset: props.viewRightOffset || 0,
+      viewTopOffset: props.viewTopOffset || 0,
+      viewBottomOffset: props.viewBottomOffset || 0,
+      viewLeftOffset: props.viewLeftOffset || 0,
+      viewRightOffset: props.viewRightOffset || 0,
 
       /* Inset of the view, useful if you want to apply a padding at your alert content */
-      viewTopInset: props.viewTopInset || 0,
-      viewBottomInset: props.viewBottomInset || 0,
-      viewLeftInset: props.viewLeftInset || 0,
-      viewRightInset: props.viewRightInset || 0,
+      viewTopInset: props.viewTopInset || 0,
+      viewBottomInset: props.viewBottomInset || 0,
+      viewLeftInset: props.viewLeftInset || 0,
+      viewRightInset: props.viewRightInset || 0,
 
       /* Number of Lines for Title and Message */
       titleNumberOfLines: (props.titleNumberOfLines == undefined) ? 1 : props.titleNumberOfLines,
@@ -116,12 +127,13 @@ class MessageBar extends Component {
   */
   showMessageBarAlert() {
     // If an alert is already shonw or doesn't have a title or a message, do nothing
-    if (this.alertShown || (this.state.title == null && this.state.message == null)) {
+    if (this.alertShown || (this.state.title == null && this.state.message == null)) {
       return;
     }
 
     // Set the data of the alert in the state
     this.alertShown = true;
+    this.firstCall = true;
 
     // Display the alert by animating it from the top of the screen
     // Auto-Hide it after a delay set in the state
@@ -175,7 +187,7 @@ class MessageBar extends Component {
   }
 
 
-  _hideMessageBarAlertComplete() {
+  _hideMessageBarAlertComplete() {
     // The alert is not shown anymore
     this.alertShown = false;
 
@@ -360,19 +372,23 @@ class MessageBar extends Component {
     // Set the animation transformation depending on the chosen animationType, or depending on the state's position if animationType is not overridden
     this._apllyAnimationTypeTransformation();
 
-    return (
-      <Animated.View style={{ transform: this.animationTypeTransform, backgroundColor: this.state.backgroundColor, borderColor: this.state.strokeColor, borderBottomWidth: 1, position: 'absolute', top: this.state.viewTopOffset, bottom: this.state.viewBottomOffset, left: this.state.viewLeftOffset, right: this.state.viewRightOffset, paddingTop: this.state.viewTopInset, paddingBottom: this.state.viewBottomInset, paddingLeft: this.state.viewLeftInset, paddingRight: this.state.viewRightInset }}>
-        <TouchableOpacity onPress={()=>{this._alertTapped()}} style={{ flex: 1 }}>
-          <View style={{ flex: 1, flexDirection: 'row', alignItems: 'flex-end', padding: 10 }} >
-            { this.renderImage() }
-            <View style={{ flex: 1, flexDirection: 'column', alignSelf: 'stretch', justifyContent: 'center', marginLeft: 10 }} >
-              { this.renderTitle() }
-              { this.renderMessage() }
+    if (this.firstCall){
+      return (
+        <Animated.View style={{ transform: this.animationTypeTransform, backgroundColor: this.state.backgroundColor, borderColor: this.state.strokeColor, borderBottomWidth: 1, position: 'absolute', top: this.state.viewTopOffset, bottom: this.state.viewBottomOffset, left: this.state.viewLeftOffset, right: this.state.viewRightOffset, paddingTop: this.state.viewTopInset, paddingBottom: this.state.viewBottomInset, paddingLeft: this.state.viewLeftInset, paddingRight: this.state.viewRightInset }}>
+          <TouchableOpacity onPress={()=>{this._alertTapped()}} style={{ flex: 1 }}>
+            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'flex-end', margin: 10 }} >
+              { this.renderImage() }
+              <View style={{ flex: 1, flexDirection: 'column', alignSelf: 'stretch', justifyContent: 'center', marginLeft: 10, marginRight: 10 }} >
+                { this.renderTitle() }
+                { this.renderMessage() }
+              </View>
             </View>
-          </View>
-        </TouchableOpacity>
-      </Animated.View>
-    );
+          </TouchableOpacity>
+        </Animated.View>
+      );
+    } else {
+      return (<View/>);
+    }
   }
 
   renderImage() {
@@ -414,6 +430,5 @@ class MessageBar extends Component {
   }
 
 }
-
 
 module.exports = MessageBar;
