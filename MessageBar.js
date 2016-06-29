@@ -15,6 +15,7 @@ import {
   Animated,
   Dimensions,
   Image,
+  Platform,
 } from 'react-native';
 
 let windowWidth = Dimensions.get('window').width
@@ -376,7 +377,7 @@ class MessageBar extends Component {
       return (
         <Animated.View style={{ transform: this.animationTypeTransform, backgroundColor: this.state.backgroundColor, borderColor: this.state.strokeColor, borderBottomWidth: 1, position: 'absolute', top: this.state.viewTopOffset, bottom: this.state.viewBottomOffset, left: this.state.viewLeftOffset, right: this.state.viewRightOffset, paddingTop: this.state.viewTopInset, paddingBottom: this.state.viewBottomInset, paddingLeft: this.state.viewLeftInset, paddingRight: this.state.viewRightInset }}>
           <TouchableOpacity onPress={()=>{this._alertTapped()}} style={{ flex: 1 }}>
-            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'flex-end', margin: 10 }} >
+            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'flex-end', margin: 10, marginTop: ((Platform.OS == 'ios') ? 0 : 20), }} >
               { this.renderImage() }
               <View style={{ flex: 1, flexDirection: 'column', alignSelf: 'stretch', justifyContent: 'center', marginLeft: 10, marginRight: 10 }} >
                 { this.renderTitle() }
