@@ -223,6 +223,10 @@ class MessageBar extends Component {
     }
   }
 
+  _alertCloseTapped() {
+    this.hideMessageBarAlert();
+  }
+
 
   /*
   * Callback executed when alert is shown
@@ -375,8 +379,8 @@ class MessageBar extends Component {
 
     if (this.firstCall){
       return (
-        <Animated.View style={{ transform: this.animationTypeTransform, backgroundColor: this.state.backgroundColor, borderColor: this.state.strokeColor, borderBottomWidth: 1, position: 'absolute', top: this.state.viewTopOffset, bottom: this.state.viewBottomOffset, left: this.state.viewLeftOffset, right: this.state.viewRightOffset, paddingTop: this.state.viewTopInset, paddingBottom: this.state.viewBottomInset, paddingLeft: this.state.viewLeftInset, paddingRight: this.state.viewRightInset }}>
-          <TouchableOpacity onPress={()=>{this._alertTapped()}} style={{ flex: 1 }}>
+        <Animated.View style={{ transform: this.animationTypeTransform, backgroundColor: this.state.backgroundColor, borderColor: this.state.strokeColor, borderBottomWidth: 1, position: 'absolute', top: this.state.viewTopOffset, bottom: this.state.viewBottomOffset, left: this.state.viewLeftOffset, paddingTop: this.state.viewTopInset, paddingBottom: this.state.viewBottomInset, paddingLeft: this.state.viewLeftInset, paddingRight: this.state.viewRightInset }}>
+          <TouchableOpacity onPress={()=>{this._alertTapped()}} style={{ width: windowWidth }}>
             <View style={{ flex: 1, flexDirection: 'row', alignItems: 'flex-end', margin: 10, }} >
               { this.renderImage() }
               <View style={{ flex: 1, flexDirection: 'column', alignSelf: 'stretch', justifyContent: 'center', marginLeft: 10, marginRight: 10 }} >
@@ -385,6 +389,13 @@ class MessageBar extends Component {
               </View>
             </View>
           </TouchableOpacity>
+          <View style={{ position: 'absolute', top: 0, right: 0, alignSelf: 'flex-start' }}>
+            <TouchableOpacity onPress={()=>{this._alertCloseTapped()}}>
+              <View style={{marginTop: 15, marginBottom: 15, marginRight: 13, marginLeft: 13, alignSelf: 'stretch'}}>
+                <Text style={{fontSize: 30, fontWeight: 'bold'}}>X</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
         </Animated.View>
       );
     } else {
