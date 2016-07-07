@@ -18,6 +18,8 @@ import {
   Platform,
 } from 'react-native';
 
+var Icon = require('react-native-vector-icons/MaterialIcons');
+
 let windowWidth = Dimensions.get('window').width
 let windowHeight = Dimensions.get('window').height
 
@@ -391,8 +393,8 @@ class MessageBar extends Component {
           </TouchableOpacity>
           <View style={{ position: 'absolute', top: 0, right: 0, alignSelf: 'flex-start' }}>
             <TouchableOpacity onPress={()=>{this._alertCloseTapped()}}>
-              <View style={{marginTop: 20, marginBottom: 15, marginRight: 13, marginLeft: 13, alignSelf: 'stretch'}}>
-                <Text style={{fontSize: 20, fontWeight: 'bold', color: 'black'}}>X</Text>
+              <View style={{marginTop: 23, marginBottom: 15, marginRight: 13, marginLeft: 13, alignSelf: 'stretch'}}>
+                <Icon allowFontScaling={false} name="clear" size={25} color="white" />
               </View>
             </TouchableOpacity>
           </View>
