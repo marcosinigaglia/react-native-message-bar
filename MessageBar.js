@@ -391,8 +391,8 @@ class MessageBar extends Component {
           </TouchableOpacity>
           <View style={{ position: 'absolute', top: 0, right: 0, alignSelf: 'flex-start' }}>
             <TouchableOpacity onPress={()=>{this._alertCloseTapped()}}>
-              <View style={{marginTop: 15, marginBottom: 15, marginRight: 13, marginLeft: 13, alignSelf: 'stretch'}}>
-                <Text style={{fontSize: 30, fontWeight: 'bold'}}>X</Text>
+              <View style={{marginTop: 20, marginBottom: 15, marginRight: 13, marginLeft: 13, alignSelf: 'stretch'}}>
+                <Text style={{fontSize: 20, fontWeight: 'bold', color: 'black'}}>X</Text>
               </View>
             </TouchableOpacity>
           </View>
