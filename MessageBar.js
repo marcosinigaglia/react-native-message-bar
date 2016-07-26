@@ -37,8 +37,19 @@ class MessageBar extends Component {
     this.state = this.getStateByProps(props);
   }
 
+  componentDidMount() {
+    // Apply the colors of the alert depending on its alertType
+    this._applyAlertStylesheet(this.state.alertType);
+
+    // Override the opposition style position regarding the state position in order to have the alert sticks that position
+    this._changeOffsetByPosition(this.state.position);
+  }
+
+
   componentWillReceiveProps(nextProps) {
-    this.setNewState(nextProps);
+    if (nextProps != null && nextProps.length > 0) {
+      this.setNewState(nextProps);
+    }
   }
 
   setNewState(state) {
