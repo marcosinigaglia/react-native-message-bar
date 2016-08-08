@@ -76,6 +76,7 @@ class MessageBar extends Component {
       avatar: props.avatar,
       alertType: props.alertType || 'info',
       duration: props.duration || 3000,
+      showCloseButton: props.showCloseButton,
 
       /* Hide setters */
       shouldHideAfterDelay: (props.shouldHideAfterDelay == undefined) ? true : props.shouldHideAfterDelay,
@@ -392,11 +393,7 @@ class MessageBar extends Component {
             </View>
           </TouchableOpacity>
           <View style={{ position: 'absolute', top: 0, right: 0, alignSelf: 'flex-start' }}>
-            <TouchableOpacity onPress={()=>{this._alertCloseTapped()}}>
-              <View style={{marginTop: (Platform.OS == 'ios') ? 31 : 23, marginBottom:(Platform.OS == 'ios') ? 7 : 15, marginRight: 13, marginLeft: 13, alignSelf: 'stretch'}}>
-                <Icon allowFontScaling={false} name="clear" size={25} color="white" />
-              </View>
-            </TouchableOpacity>
+                { this.renderCloseButton() }
           </View>
         </Animated.View>
       );
@@ -436,6 +433,18 @@ class MessageBar extends Component {
         <Text numberOfLines={this.state.messageNumberOfLines} style={this.state.messageStyle}>
           { this.state.message }
         </Text>
+      );
+    }
+  }
+
+  renderCloseButton() {
+    if (this.state.showCloseButton != null && this.state.showCloseButton) {
+      return (
+        <TouchableOpacity onPress={()=>{this._alertCloseTapped()}}>
+          <View style={{marginTop: (Platform.OS == 'ios') ? 31 : 23, marginBottom:(Platform.OS == 'ios') ? 7 : 15, marginRight: 13, marginLeft: 13, alignSelf: 'stretch'}}>
+            <Icon allowFontScaling={false} name="clear" size={25} color="white" />
+          </View>
+        </TouchableOpacity>
       );
     }
   }
