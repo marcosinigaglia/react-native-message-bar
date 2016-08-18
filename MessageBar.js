@@ -73,10 +73,12 @@ class MessageBar extends Component {
       /* Cusomisation of the alert: Title, Message, Icon URL, Alert alertType (error, success, warning, info), Duration for Alert keep shown */
       title: props.title,
       message: props.message,
+      imgMessage: props.imgMessage,
       avatar: props.avatar,
       alertType: props.alertType || 'info',
       duration: props.duration || 3000,
       showCloseButton: props.showCloseButton,
+      closeButtonColor: props.closeButtonColor || "black",
 
       /* Hide setters */
       shouldHideAfterDelay: (props.shouldHideAfterDelay == undefined) ? true : props.shouldHideAfterDelay,
@@ -133,7 +135,7 @@ class MessageBar extends Component {
   */
   showMessageBarAlert() {
     // If an alert is already shonw or doesn't have a title or a message, do nothing
-    if (this.alertShown || (this.state.title == null && this.state.message == null)) {
+    if (this.alertShown || (this.state.title == null && ( this.state.message == null || this.state.imgMessage == null))) {
       return;
     }
 
@@ -435,6 +437,11 @@ class MessageBar extends Component {
         </Text>
       );
     }
+    if (this.state.imgMessage != null) {
+     return (
+          <Image style={this.state.messageStyle}  source={this.state.imgMessage} />
+        );
+    }
   }
 
   renderCloseButton() {
@@ -442,7 +449,7 @@ class MessageBar extends Component {
       return (
         <TouchableOpacity onPress={()=>{this._alertCloseTapped()}}>
           <View style={{marginTop: (Platform.OS == 'ios') ? 31 : 23, marginBottom:(Platform.OS == 'ios') ? 7 : 15, marginRight: 13, marginLeft: 13, alignSelf: 'stretch'}}>
-            <Icon allowFontScaling={false} name="clear" size={25} color="white" />
+            <Icon allowFontScaling={false} name="clear" size={25} color={this.state.closeButtonColor} />
           </View>
         </TouchableOpacity>
       );
