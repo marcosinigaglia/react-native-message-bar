@@ -33,6 +33,7 @@ class MessageBar extends Component {
     this.notifyAlertHiddenCallback = null;
     this.alertShown = false;
     this.timeoutHide = null;
+    this.firstCall = false;
 
     this.state = this.getStateByProps(props);
   }
@@ -141,6 +142,7 @@ class MessageBar extends Component {
 
     // Set the data of the alert in the state
     this.alertShown = true;
+    this.firstCall = true;
 
     // Display the alert by animating it from the top of the screen
     // Auto-Hide it after a delay set in the state
@@ -382,7 +384,7 @@ class MessageBar extends Component {
   render() {
     // Set the animation transformation depending on the chosen animationType, or depending on the state's position if animationType is not overridden
     this._apllyAnimationTypeTransformation();
-
+    if (this.firstCall){
       return (
         <Animated.View style={{ transform: this.animationTypeTransform, backgroundColor: this.state.backgroundColor, borderColor: this.state.strokeColor, borderBottomWidth: 1, position: 'absolute', top: this.state.viewTopOffset, bottom: this.state.viewBottomOffset, left: this.state.viewLeftOffset, paddingTop: this.state.viewTopInset, paddingBottom: this.state.viewBottomInset, paddingLeft: this.state.viewLeftInset, paddingRight: this.state.viewRightInset }}>
           <TouchableOpacity onPress={()=>{this._alertTapped()}} style={{ width: windowWidth }}>
@@ -399,6 +401,9 @@ class MessageBar extends Component {
           </View>
         </Animated.View>
       );
+    } else {
+      return (<View/>);
+    }
   }
 
   renderImage() {

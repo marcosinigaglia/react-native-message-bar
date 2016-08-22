@@ -68,4 +68,16 @@ module.exports = {
 		}
 	},
 
+	init() {
+		this.showAlert({
+      message: '',
+      duration: 1,
+      position: 'bottom',
+      viewTopInset: 0,
+      viewBottomInset: 0,
+      durationToShow: 1,
+      durationToHide: 1
+    });
+	}
+
 };
